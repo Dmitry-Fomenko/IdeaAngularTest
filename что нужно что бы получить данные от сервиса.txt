@@ -1,0 +1,41 @@
+сервис hero.servce.ts
+
+предоставляем метод
+getHeroesObservable
+
+1. что бы подключить сервис
+     а) // импортируем класс нашего сервиса
+      import { HeroService } from '../hero.service'; // импортируем наш сервис с одним методом
+
+      //добавляем в консруктор наш класс сервиса
+      constructor(private heroService: HeroService) { }
+
+      // создать переменную куда мы будем получать данные
+
+
+
+      //создаем метод для получения данных
+        getHeroes(): void {
+          this.heroService.getHeroesObservable() // !!! важно getHeroesObservable - метод класса нашего сервиса
+            .subscribe(heroes => this.heroes = heroes);
+        }
+
+       //прописываем выполнение этого метода при инициализации класса
+        ngOnInit() {
+          console.log('test log');
+          this.getHeroes();  // выполняем этот метод перед инициализацией класса
+        }
+
+//************************************************************************************************************
+можем посмотреть результаты в файле html
+2. Мы можем получать данные с сервиса в коде html. для этого инжектируем его в компонент:
+     - import
+     - добавляем в конструктор: c параметром public : constructor( public messageService: MessageService ) { }
+       здесь мы инжектировали наш сервис в класс компонент
+       используем в html:
+       <div *ngIf="messageService.messages.length">
+         <button class="clear"
+                 (click)="messageService.clear()">add</button>
+         <div *ngFor='let message of messageService.messages'> {{message}} </div>
+       <div>
+

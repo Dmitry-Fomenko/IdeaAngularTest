@@ -1,0 +1,56 @@
+смысл:
+в компоненте html каждому елементу *ngfor присваиваем ссылку
+<a routerLink="/detail/{{hero.id}}">   ссылка получается /deatail/1....  и так далее
+в файле app-routing.module.ts (создаем если нет) const routes: Routes = [
+добавляем путь: { path: 'detail/:id', component: HeroDetailComponent }  тоесть какой компонент будет загужаться при клике
+в компоненте создаем метод для получения данных:
+  getHero(): void {
+    const id = +this.route.snapshot.paramMap.get('id'); // получаем id
+    this.heroService.getHero(id)   // получаем данные с нашего сервиса по id
+      .subscribe(hero => this.hero = hero);
+  }
+  соответсвенно добавляем этот метод в onInit(){}  что бы при старте компонента данные уже были в нем.
+в сервисе реализуем метод для получения данных по id:
+    getHero(id: number): Observable<Hero> {
+    // TODO: send the message _after_ fetching the hero
+    this.messageService.add(`HeroService: fetched hero id=${id}`);  // "это не знаю для чего"
+    return of(HEROES.find(hero => hero.id === id));  //
+  }
+и последнее в компоненте который переходит по ссылке добавляем html:
+<a *ngFor="let hero of heroes" class="col-1-4"
+     routerLink="/detail/{{hero.id}}" >
+    <div class="module hero">
+      <h4>{{hero.name}}</h4>
+    </div>
+</a>
+Требования:
+
+
+
+что бы сделать ссылку
+ 1. ng generate module app-routing --flat --module=app
+
+ 2. в новом app-routing добавляем import в шапку
+ import { RouterModule, Routes } from '@angular/router';
+
+ 3. в @NgModule добавляем export:
+ exports: [ RouterModule ]
+
+ 4.
+ импротируем компонент куда будет ссылка
+ import { HeroesComponent }      from './heroes/heroes.component';
+
+ под импортами создаем экземпляр ссылки
+ const routes: Routes = [
+   { path: 'heroes', component: HeroesComponent }
+ ];
+
+ 5. в app-routing
+ в @NgModule добавляем
+ imports: [ RouterModule.forRoot(routes) ],
+
+ 6. Все это будет работать по линку
+ <nav>
+   <a routerLink="/heroes">Heroes</a>
+ </nav>
+ <router-outlet></router-outlet>

@@ -1,0 +1,48 @@
+<p>heroes works!</p>
+
+
+<!--  без клика
+<ul class="heroes">
+<li *ngFor ="let item of heroes" >
+<span class ="badge">{{item.id}}</span>
+  {{item.name}}
+</li>
+</ul>
+-->
+
+<!-- с кликом -->
+
+<h2>My Heroes</h2>
+
+<input [(ngModel)] = "myinput" placehoder = "myinput" />
+
+<button class="clear"
+        (click)="heroService.getHttpHeroes()">GetHttp</button>
+<div *ngIf ="myinput">
+  <H1>{{myinput}}</H1>
+</div>
+
+<ul class="heroes">
+  <li *ngFor="let hero of heroes">
+    <a routerLink="/detail/{{hero.id}}"> <!--  к каждой строке приписываем линк -->
+      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </a>
+  </li>
+</ul>
+
+<!-- <app-hero-detail [hero]="SelectedOption"></app-hero-detail> -->
+
+
+<!-- эта часть для когда выбираем select -->
+<!--
+<br>
+<div class="styled-select">
+<select  [(ngModel)]="myinput" >  -->   <!-- сюда будет загружаться выбранное значение --> <!--
+<option *ngFor = "let item of heroes" >
+  {{item.name}}
+</option>
+</select>
+</div>
+<br>
+<input [(ngModel)]="myinput" placehoder = "myinput" />
+-->
